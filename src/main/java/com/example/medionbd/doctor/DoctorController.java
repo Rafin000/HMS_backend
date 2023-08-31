@@ -35,8 +35,9 @@ public class DoctorController {
             @RequestParam(required = false) Boolean isActive,
             @RequestParam(required = false) String userId,
             @RequestParam(required = false) String biography,
-            @RequestParam(required = false) String phoneNumber
+            @RequestParam(required = false) String phoneNumber,
+            @RequestBody Doctor updatedDoctor
     ){
-        doctorService.updateDoctor(doctorId,isActive,biography,phoneNumber,userId);
+        doctorService.updateDoctor(doctorId,updatedDoctor);
     }
 }

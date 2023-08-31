@@ -38,27 +38,26 @@ public class DoctorService {
         doctorRepository.deleteById(doctorId);
     }
     @Transactional
-    public  void updateDoctor(UUID doctorId,  Boolean isActive, String biography, String phoneNumber, String userId){
+    public  void updateDoctor(UUID doctorId, Doctor updatedDoctor){
         Doctor doctor = doctorRepository.findById(doctorId).orElseThrow(()-> new IllegalStateException("Doctor Id with "+ doctorId +" doesn't exists!"));
 
-        if (!Objects.equals(doctor.getActive(),isActive)){
-            doctor.setActive(isActive);
+        if (updatedDoctor.getActive()!=null && !Objects.equals(doctor.getActive(),updatedDoctor.getActive())){
+            doctor.setActive(updatedDoctor.getActive());
         }
-        if(!Objects.equals(doctor.getBiography(),biography)){
-            doctor.setBiography(biography);
-        }
-
-        if (!Objects.equals(doctor.getPhoneNumber(),phoneNumber)) {
-            doctor.setPhoneNumber(phoneNumber);
+        if(updatedDoctor.getBiography()!=null && updatedDoctor.getBiography().length()>0 && !Objects.equals(doctor.getBiography(),updatedDoctor.getBiography())){
+            doctor.setBiography(updatedDoctor.getBiography());
         }
 
-        if(!Objects.equals(doctor.getUserId(),userId)){
-            Optional<Doctor> doctorOptional = doctorRepository.findDoctorByUserId(userId);
+        if (updatedDoctor.getPhoneNumber() != null && !Objects.equals(doctor.getPhoneNumber(),updatedDoctor.getPhoneNumber())) {
+            doctor.setPhoneNumber(doctor.getPhoneNumber());
+        }
+
+        if(updatedDoctor.getUserId() !=null && !Objects.equals(doctor.getUserId(),updatedDoctor.getUserId())){
+            Optional<Doctor> doctorOptional = doctorRepository.findDoctorByUserId(updatedDoctor.getUserId());
             if(doctorOptional.isPresent()){
                 throw  new IllegalStateException(" Username Already Taken!");
             }
-
-            doctor.setUserId(userId);
+            doctor.setUserId(updatedDoctor.getUserId());
         }
     }
 }
