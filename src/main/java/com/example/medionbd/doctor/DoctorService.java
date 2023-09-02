@@ -22,7 +22,7 @@ public class DoctorService {
     }
 
     public void createDoctor(Doctor doctor){
-        Optional<Doctor> doctorOptional = doctorRepository.findDoctorByUserId(doctor.getUserId());
+        Optional<Doctor> doctorOptional = doctorRepository.findDoctorByRegistrationId(doctor.getRegistrationId());
         if(doctorOptional.isPresent()){
             throw new IllegalStateException("Username Already Taken!");
         }
@@ -41,23 +41,20 @@ public class DoctorService {
     public  void updateDoctor(UUID doctorId, Doctor updatedDoctor){
         Doctor doctor = doctorRepository.findById(doctorId).orElseThrow(()-> new IllegalStateException("Doctor Id with "+ doctorId +" doesn't exists!"));
 
-        if (updatedDoctor.getActive()!=null && !Objects.equals(doctor.getActive(),updatedDoctor.getActive())){
-            doctor.setActive(updatedDoctor.getActive());
-        }
         if(updatedDoctor.getBiography()!=null && updatedDoctor.getBiography().length()>0 && !Objects.equals(doctor.getBiography(),updatedDoctor.getBiography())){
             doctor.setBiography(updatedDoctor.getBiography());
         }
 
-        if (updatedDoctor.getPhoneNumber() != null && !Objects.equals(doctor.getPhoneNumber(),updatedDoctor.getPhoneNumber())) {
-            doctor.setPhoneNumber(doctor.getPhoneNumber());
+        if (updatedDoctor.getClinicHour() != null && !Objects.equals(doctor.getClinicHour(),updatedDoctor.getClinicHour())) {
+            doctor.setClinicHour(doctor.getClinicHour());
         }
 
-        if(updatedDoctor.getUserId() !=null && !Objects.equals(doctor.getUserId(),updatedDoctor.getUserId())){
-            Optional<Doctor> doctorOptional = doctorRepository.findDoctorByUserId(updatedDoctor.getUserId());
+        if(updatedDoctor.getRegistrationId() !=null && !Objects.equals(doctor.getRegistrationId(),updatedDoctor.getRegistrationId())){
+            Optional<Doctor> doctorOptional = doctorRepository.findDoctorByRegistrationId(updatedDoctor.getRegistrationId());
             if(doctorOptional.isPresent()){
                 throw  new IllegalStateException(" Username Already Taken!");
             }
-            doctor.setUserId(updatedDoctor.getUserId());
+            doctor.setRegistrationId(updatedDoctor.getRegistrationId());
         }
     }
 }

@@ -10,27 +10,24 @@ public class Doctor {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-    private String userId;
-    private  String phoneNumber;
+    private String registrationId;
+    private  String clinicHour;
     private  String biography;
-    private Boolean isActive;
 
     public Doctor() {
     }
 
-    public Doctor(UUID id, String userId, String phoneNumber, String biography, Boolean isActive) {
-        this.id = id;
-        this.userId = userId;
-        this.phoneNumber = phoneNumber;
+    public Doctor(String registrationId, String clinicHour, String biography) {
+        this.registrationId = registrationId;
+        this.clinicHour = clinicHour;
         this.biography = biography;
-        this.isActive = isActive;
     }
 
-    public Doctor(String userId, String phoneNumber, String biography, Boolean isActive) {
-        this.userId = userId;
-        this.phoneNumber = phoneNumber;
+    public Doctor(UUID id, String registrationId, String clinicHour, String biography) {
+        this.id = id;
+        this.registrationId = registrationId;
+        this.clinicHour = clinicHour;
         this.biography = biography;
-        this.isActive = isActive;
     }
 
     public UUID getId() {
@@ -41,20 +38,20 @@ public class Doctor {
         this.id = id;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getRegistrationId() {
+        return registrationId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setRegistrationId(String registrationId) {
+        this.registrationId = registrationId;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public String getClinicHour() {
+        return clinicHour;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setClinicHour(String clinicHour) {
+        this.clinicHour = clinicHour;
     }
 
     public String getBiography() {
@@ -65,22 +62,13 @@ public class Doctor {
         this.biography = biography;
     }
 
-    public Boolean getActive() {
-        return isActive;
-    }
-
-    public void setActive(Boolean active) {
-        isActive = active;
-    }
-
     @Override
     public String toString() {
         return "Doctor{" +
-                "id='" + id + '\'' +
-                ", userId='" + userId + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
+                "id=" + id +
+                ", registrationId='" + registrationId + '\'' +
+                ", clinicHour='" + clinicHour + '\'' +
                 ", biography='" + biography + '\'' +
-                ", isActive=" + isActive +
                 '}';
     }
 }
