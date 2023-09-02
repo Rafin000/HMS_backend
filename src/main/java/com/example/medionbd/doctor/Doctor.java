@@ -4,14 +4,40 @@ import jakarta.persistence.*;
 
 import java.util.UUID;
 
-@Entity
-@Table
+@Entity(name = "Doctor")
+@Table(
+        name = "doctor",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "doctor_registration_id_unique", columnNames ="registration_id" )
+        }
+)
+
 public class Doctor {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(
+            name = "id",
+            updatable = false
+    )
     private UUID id;
+    @Column(
+            name = "registration_id",
+            updatable = true,
+            columnDefinition = "TEXT",
+            nullable = false
+    )
     private String registrationId;
+    @Column(
+            name = "clinic_hour",
+            updatable = true,
+            columnDefinition = "TEXT"
+    )
     private  String clinicHour;
+    @Column(
+            name = "biography",
+            updatable = true,
+            columnDefinition = "TEXT"
+    )
     private  String biography;
 
     public Doctor() {
