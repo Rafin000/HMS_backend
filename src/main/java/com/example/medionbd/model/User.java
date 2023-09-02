@@ -54,10 +54,10 @@ public class User {
             columnDefinition = "TEXT"
     )
     private String phoneNumber;
+    @Enumerated(EnumType.ORDINAL)
     @Column(
             name = "user_type",
             updatable = false,
-            columnDefinition = "Enum",
             nullable = false
     )
     private UserType userType;
