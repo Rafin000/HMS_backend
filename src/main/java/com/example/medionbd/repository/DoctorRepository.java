@@ -1,5 +1,6 @@
-package com.example.medionbd.doctor;
+package com.example.medionbd.repository;
 
+import com.example.medionbd.model.Doctor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

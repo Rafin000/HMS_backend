@@ -1,5 +1,7 @@
-package com.example.medionbd.doctor;
+package com.example.medionbd.service;
 
+import com.example.medionbd.model.Doctor;
+import com.example.medionbd.repository.DoctorRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

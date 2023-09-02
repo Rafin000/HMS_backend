@@ -1,4 +1,4 @@
-package com.example.medionbd.doctor;
+package com.example.medionbd.config;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;

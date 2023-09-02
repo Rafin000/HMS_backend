@@ -1,4 +1,4 @@
-package com.example.medionbd.doctor;
+package com.example.medionbd.model;
 
 import jakarta.persistence.*;
 
