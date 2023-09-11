@@ -47,11 +47,11 @@ public class DoctorService {
             doctor.setBiography(updatedDoctor.getBiography());
         }
 
-        if (updatedDoctor.getClinicHour() != null && !Objects.equals(doctor.getClinicHour(),updatedDoctor.getClinicHour())) {
-            doctor.setClinicHour(doctor.getClinicHour());
+        if (updatedDoctor.getClinicHour() != null && updatedDoctor.getClinicHour().length()>0 && !Objects.equals(doctor.getClinicHour(),updatedDoctor.getClinicHour())) {
+            doctor.setClinicHour(updatedDoctor.getClinicHour());
         }
 
-        if(updatedDoctor.getRegistrationId() !=null && !Objects.equals(doctor.getRegistrationId(),updatedDoctor.getRegistrationId())){
+        if(updatedDoctor.getRegistrationId() !=null && updatedDoctor.getRegistrationId().length()>0 && !Objects.equals(doctor.getRegistrationId(),updatedDoctor.getRegistrationId())){
             Optional<Doctor> doctorOptional = doctorRepository.findDoctorByRegistrationId(updatedDoctor.getRegistrationId());
             if(doctorOptional.isPresent()){
                 throw  new IllegalStateException(" Username Already Taken!");

@@ -33,9 +33,6 @@ public class DoctorController {
     @PutMapping(path = "{doctorId}")
     public void updateDoctor(
             @PathVariable("doctorId") UUID doctorId,
-            @RequestParam(required = false) String registrationId,
-            @RequestParam(required = false) String biography,
-            @RequestParam(required = false) String clinicHour,
             @RequestBody Doctor updatedDoctor
     ){
         doctorService.updateDoctor(doctorId,updatedDoctor);
