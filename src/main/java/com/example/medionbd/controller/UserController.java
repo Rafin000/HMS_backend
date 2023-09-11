@@ -1,8 +1,11 @@
 package com.example.medionbd.controller;
 
+import com.example.medionbd.dto.UserDto;
 import com.example.medionbd.model.User;
 import com.example.medionbd.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,7 +13,7 @@ import java.util.UUID;
 
 
 @RestController
-@RequestMapping(path="/api/v1/user")
+@RequestMapping(path="/api/v1")
 public class UserController {
     private final UserService userService;
 
@@ -19,25 +22,30 @@ public class UserController {
         this.userService= userService;
     }
 
-    @GetMapping
-    public List<User> getUsers(){
-        return  userService.getUsers();
+    @RequestMapping(value = "/users/all" , method = RequestMethod.GET)
+    public @ResponseBody  List<User> getAllUsers(){
+        return  userService.getAllUsers();
     }
 
-    @PostMapping
-    public void createUser(User user){
-        userService.createUser(user);
+    @RequestMapping(value = "/user" , method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<User> createUser(@RequestBody UserDto userDto){
+         User createdUser= userService.createUser(userDto);
+         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
 
-    @DeleteMapping(path = "{userId}")
+    @RequestMapping(value = "/users/{userId}" , method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable("userId") UUID userId){
         userService.deleteUser(userId);
     }
-    @PutMapping(path = "{userId}")
-    public void updateUser(
+    @RequestMapping(value = "/users/{userId}" , method = RequestMethod.PUT)
+    @ResponseBody
+    public ResponseEntity<User> updateUser(
             @PathVariable("userId") UUID userId,
-            @RequestBody User updatedUser
+            @RequestBody UserDto updatedUserDto
     ){
-        userService.updateUser(userId,updatedUser);
+        User updatedUser = userService.updateUser(userId, updatedUserDto);
+        return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 }

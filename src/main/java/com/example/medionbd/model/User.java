@@ -35,7 +35,7 @@ public class User {
     private  String lastName;
     @Column(
             name = "email",
-            updatable = true,
+            updatable = false,
             columnDefinition = "TEXT",
             nullable = false
     )
@@ -54,7 +54,8 @@ public class User {
             columnDefinition = "TEXT"
     )
     private String phoneNumber;
-    @Enumerated(EnumType.ORDINAL)
+
+    @Enumerated(EnumType.STRING)
     @Column(
             name = "user_type",
             updatable = false,
@@ -91,6 +92,7 @@ public class User {
         this.userType = userType;
         this.dob = dob;
     }
+
 
     public UUID getId() {
         return id;

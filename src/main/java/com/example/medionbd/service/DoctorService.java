@@ -19,7 +19,7 @@ public class DoctorService {
         this.doctorRepository = doctorRepository ;
     }
 
-    public List<Doctor> getDoctors(){
+    public List<Doctor> getAllDoctors(){
         return doctorRepository.findAll();
     }
 

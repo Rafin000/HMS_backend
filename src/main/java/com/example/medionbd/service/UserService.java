@@ -1,14 +1,13 @@
 package com.example.medionbd.service;
 
-import com.example.medionbd.model.Doctor;
+import com.example.medionbd.dto.UserDto;
 import com.example.medionbd.model.User;
 import com.example.medionbd.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.print.Doc;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -21,16 +20,27 @@ public class UserService {
     public UserService(UserRepository userRepository){
         this.userRepository=userRepository;
     }
-    public List<User> getUsers(){
+    public @ResponseBody List<User> getAllUsers(){
         return userRepository.findAll();
     }
 
-    public void createUser(User user){
-        Optional<User> userOptional = userRepository.findUsersByEmail(user.getEmail());
+    public User createUser(UserDto userDto){
+
+        Optional<User> userOptional = userRepository.findUsersByEmail(userDto.getEmail());
         if(userOptional.isPresent()){
             throw  new IllegalStateException("Email Already Occupied");
         }
+        User user = new User(
+                userDto.getFirstName(),
+                userDto.getLastName(),
+                userDto.getEmail(),
+                userDto.getPassword(),
+                userDto.getPhoneNumber(),
+                userDto.getUserType(),
+                userDto.getDob()
+        );
         userRepository.save(user);
+        return user;
     }
 
     public  void deleteUser(UUID userId){
@@ -42,7 +52,7 @@ public class UserService {
     }
 
     @Transactional
-    public void updateUser(UUID userId, User updatedUser){
+    public User updateUser(UUID userId, UserDto updatedUser){
         User user = userRepository.findById(userId)
                 .orElseThrow(()-> new IllegalStateException("User Id with "+ userId +" doesn't exists!"));
         String updatedFirstName = updatedUser.getFirstName();
@@ -62,5 +72,6 @@ public class UserService {
         if(updatedPhoneNumber !=null && updatedPhoneNumber.length()>0 && !Objects.equals(user.getPhoneNumber(),updatedPhoneNumber)){
             user.setPhoneNumber(updatedPhoneNumber);
         }
+        return user;
     }
 }
