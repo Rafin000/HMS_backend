@@ -1,5 +1,6 @@
 package com.example.medionbd.service;
 
+import com.example.medionbd.dto.DoctorDto;
 import com.example.medionbd.model.Doctor;
 import com.example.medionbd.repository.DoctorRepository;
 import jakarta.transaction.Transactional;
@@ -23,12 +24,20 @@ public class DoctorService {
         return doctorRepository.findAll();
     }
 
-    public void createDoctor(Doctor doctor){
-        Optional<Doctor> doctorOptional = doctorRepository.findDoctorByRegistrationId(doctor.getRegistrationId());
+    public Doctor createDoctor(DoctorDto doctorDto){
+        Optional<Doctor> doctorOptional = doctorRepository.findDoctorByRegistrationId(doctorDto.getRegistrationId());
         if(doctorOptional.isPresent()){
             throw new IllegalStateException("Username Already Taken!");
         }
+
+        Doctor doctor = new Doctor(
+                doctorDto.getRegistrationId(),
+                doctorDto.getBiography(),
+                doctorDto.getClinicHour()
+        );
+
         doctorRepository.save(doctor);
+        return doctor;
     }
 
     public  void deleteDoctor(UUID doctorId){
@@ -40,23 +49,28 @@ public class DoctorService {
         doctorRepository.deleteById(doctorId);
     }
     @Transactional
-    public  void updateDoctor(UUID doctorId, Doctor updatedDoctor){
+    public  Doctor updateDoctor(UUID doctorId, DoctorDto updatedDoctorDto){
         Doctor doctor = doctorRepository.findById(doctorId).orElseThrow(()-> new IllegalStateException("Doctor Id with "+ doctorId +" doesn't exists!"));
 
-        if(updatedDoctor.getBiography()!=null && updatedDoctor.getBiography().length()>0 && !Objects.equals(doctor.getBiography(),updatedDoctor.getBiography())){
-            doctor.setBiography(updatedDoctor.getBiography());
+        String updatedRegistrationId = updatedDoctorDto.getRegistrationId();
+        String updatedClinicHour = updatedDoctorDto.getClinicHour();
+        String updatedBiography = updatedDoctorDto.getBiography();
+
+        if(updatedBiography!=null && updatedBiography.length()>0 && !Objects.equals(doctor.getBiography(),updatedBiography)){
+            doctor.setBiography(updatedBiography);
         }
 
-        if (updatedDoctor.getClinicHour() != null && updatedDoctor.getClinicHour().length()>0 && !Objects.equals(doctor.getClinicHour(),updatedDoctor.getClinicHour())) {
-            doctor.setClinicHour(updatedDoctor.getClinicHour());
+        if (updatedClinicHour != null && updatedClinicHour.length()>0 && !Objects.equals(doctor.getClinicHour(),updatedClinicHour)) {
+            doctor.setClinicHour(updatedClinicHour);
         }
 
-        if(updatedDoctor.getRegistrationId() !=null && updatedDoctor.getRegistrationId().length()>0 && !Objects.equals(doctor.getRegistrationId(),updatedDoctor.getRegistrationId())){
-            Optional<Doctor> doctorOptional = doctorRepository.findDoctorByRegistrationId(updatedDoctor.getRegistrationId());
+        if(updatedRegistrationId !=null && updatedRegistrationId.length()>0 && !Objects.equals(doctor.getRegistrationId(),updatedRegistrationId)){
+            Optional<Doctor> doctorOptional = doctorRepository.findDoctorByRegistrationId(updatedRegistrationId);
             if(doctorOptional.isPresent()){
                 throw  new IllegalStateException(" Username Already Taken!");
             }
-            doctor.setRegistrationId(updatedDoctor.getRegistrationId());
+            doctor.setRegistrationId(updatedRegistrationId);
         }
+        return doctor;
     }
 }
